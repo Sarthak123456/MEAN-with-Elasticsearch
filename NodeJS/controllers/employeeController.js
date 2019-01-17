@@ -4,6 +4,35 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 var { Employee } = require('../models/employee');
 
+//require the Elasticsearch librray
+var elasticsearch = require('elasticsearch');
+// instantiate an Elasticsearch client
+var client = new elasticsearch.Client({
+   hosts: [ 'http://localhost:9200']
+});
+
+// client.indices.delete({
+//     index: '_all'
+// }, function(err, res) {
+
+//     if (err) {
+//         console.error(err.message);
+//     } else {
+//         console.log('Indexes have been deleted!');
+//     }
+// });
+
+client.indices.create({
+    index: 'sarthak'
+}, function(error, response, status) {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log("created a new index", response);
+    }
+});
+
+
 // => localhost:3000/employees/
 router.get('/', (req, res) => {
     Employee.find((err, docs) => {
@@ -11,6 +40,33 @@ router.get('/', (req, res) => {
         else { console.log('Error in Retriving Employees :' + JSON.stringify(err, undefined, 2)); }
     });
 });
+
+
+router.get('/:term', (req, res) => {
+    client.search({
+        index: 'sarthak',
+        type: 'employee',
+    body: {
+      'query': {
+        'match_phrase_prefix': {
+          name: req.params.term
+        }
+      }
+    }
+        // body: {
+        //     query: {
+        //         match: {
+        //             "name": 'D'
+        //         }
+        //     }
+        // }
+    }).then(function(resp) {
+        res.send(resp);
+    }, function(err) {
+        console.trace(err.message);
+    });
+});
+
 
 router.get('/:id', (req, res) => {
     if (!ObjectId.isValid(req.params.id))
@@ -33,6 +89,21 @@ router.post('/', (req, res) => {
         if (!err) { res.send(doc); }
         else { console.log('Error in Employee Save :' + JSON.stringify(err, undefined, 2)); }
     });
+
+    client.index({
+        index: 'sarthak',
+        id: req.params.id,
+        type: 'employee',
+        body: {
+            name: req.body.name,
+            position: req.body.position,
+            office: req.body.office,
+            salary: req.body.salary,
+        }
+    }, function(err, resp, status) {
+        console.log(resp);
+    });
+
 });
 
 router.put('/:id', (req, res) => {

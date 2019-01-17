@@ -30,4 +30,8 @@ export class EmployeeService {
     return this.http.delete(this.baseURL + `/${_id}`);
   }
 
+  getSearchResults(term: string) {
+    return this.http.get('http://localhost:3000/employees/'+ term);
+  }
+
 }

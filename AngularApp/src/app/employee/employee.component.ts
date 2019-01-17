@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 
 import { EmployeeService } from '../shared/employee.service';
 import { Employee } from '../shared/employee.model';
+import { Search } from '../shared/search';
 
 declare var M: any;
 
@@ -16,32 +17,48 @@ export class EmployeeComponent implements OnInit {
 
   constructor(private employeeService: EmployeeService) { }
 
+  searchResults: any;
+  elastic = false;
+
   ngOnInit() {
     this.resetForm();
     this.refreshEmployeeList();
   }
 
-  resetForm(form?: NgForm) {
-    if (form)
-      form.reset();
-    this.employeeService.selectedEmployee = {
-      _id: "",
-      name: "",
-      position: "",
-      office: "",
-      salary: null
+  search(e: any) {
+    this.employeeService.getSearchResults(e.target.value).subscribe((res) => {
+      this.searchResults = res;
+      console.log(res);
+    });
+
+    this.elastic = true;
+    if (e.target.value === '') {
+    this.elastic = false;
+
     }
   }
 
+  resetForm(form?: NgForm) {
+  //   if (form){
+  //     form.reset();
+  // }
+    this.employeeService.selectedEmployee = {
+      _id: '',
+      name: '',
+      position: '',
+      office: '',
+      salary: null
+    };
+  }
+
   onSubmit(form: NgForm) {
-    if (form.value._id == "") {
+    if (form.value._id === '') {
       this.employeeService.postEmployee(form.value).subscribe((res) => {
         this.resetForm(form);
         this.refreshEmployeeList();
         M.toast({ html: 'Saved successfully', classes: 'rounded' });
       });
-    }
-    else {
+    } else {
       this.employeeService.putEmployee(form.value).subscribe((res) => {
         this.resetForm(form);
         this.refreshEmployeeList();
@@ -54,6 +71,7 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.getEmployeeList().subscribe((res) => {
       this.employeeService.employees = res as Employee[];
     });
+    this.elastic = false;
   }
 
   onEdit(emp: Employee) {
@@ -61,7 +79,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   onDelete(_id: string, form: NgForm) {
-    if (confirm('Are you sure to delete this record ?') == true) {
+    if (confirm('Are you sure to delete this record ?') === true) {
       this.employeeService.deleteEmployee(_id).subscribe((res) => {
         this.refreshEmployeeList();
         this.resetForm(form);

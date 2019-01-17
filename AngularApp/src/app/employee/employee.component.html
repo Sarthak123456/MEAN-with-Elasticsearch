@@ -41,12 +41,21 @@
             </form>
           </div>
           <div class="col s7">
-              <table class="responsive-table highlight">
+              <form #userForm="ngForm" (keyup)="search($event)">
+                  <div class="row">
+                      <div class="input-field col s12">
+                        <input type="text" name="searchTerm"  ngModel placeholder="Enter Name">
+                        <label>Search :</label>
+                      </div>
+                    </div>
+                  </form>
+              <table *ngIf ='!elastic' class="responsive-table highlight">
                   <thead>
                     <tr>
                       <th>Name</th>
                       <th>Position</th>
                       <th>Office</th>
+                      <th>Salary</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -54,6 +63,7 @@
                     <td>{{emp.name}}</td>
                     <td>{{emp.position}}</td>
                     <td>{{emp.office}}</td>
+                    <td>{{emp.salary}}</td>
                     <td>
                         <a class="action-btn" (click)="onEdit(emp)">
                           <i class="material-icons">edit</i>
@@ -64,6 +74,33 @@
                       </td>
                   </tr>
                 </table>
+
+                <table *ngIf ='elastic'  class="responsive-table highlight">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Office</th>
+                        <th>Salary</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+
+                    <tr *ngFor="let res of searchResults.hits.hits">
+                        <td >{{res._source.name}}</td>
+                        <td >{{res._source.position}}</td>
+                        <td >{{res._source.office}}</td>
+                        <td >{{res._source.salary}}</td>
+                        <td>
+                            <!-- <a class="action-btn" (click)="onEdit(emp)">
+                              <i class="material-icons">edit</i>
+                            </a>
+                            <a class="action-btn" (click)="onDelete(emp._id,employeeForm)">
+                              <i class="material-icons">delete</i>
+                            </a> -->
+                          </td>
+                      </tr>
+                  </table>
           </div>
         </div>
       </div>
