@@ -6,7 +6,7 @@ Install npm packages using 'npm install' command from both Angular and NodeJS Pr
 
 Install ElasticSearch using npm install elasticsearch --save 
 
-Install Express, Mongoose and Body-Parser  using pm i express mongoose body-parser --save
+Install Express, Mongoose and Body-Parser  using npm i express mongoose body-parser --save
 
 MongoDb: http://localhost:3000/employees/
 
@@ -14,5 +14,5 @@ Angular: http://localhost:4200/
 
 ElasticSearch: http://localhost:9200/sarthak/employee/_search?pretty
 
-Query ElasticSearch: http://localhost:3000/employees/<query-characters>
+Query ElasticSearch: http://localhost:3000/employees/"query-chareacter"
 
