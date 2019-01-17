@@ -14,5 +14,5 @@ Angular: http://localhost:4200/
 
 ElasticSearch: http://localhost:9200/sarthak/employee/_search?pretty
 
-Query ElasticSearch: http://localhost:3000/employees/"query-chareacter"
+Query ElasticSearch: http://localhost:3000/employees/"query-character"
 
