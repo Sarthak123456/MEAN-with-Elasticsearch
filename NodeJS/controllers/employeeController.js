@@ -25,15 +25,27 @@ var array=[];
 //     }
 // });
 
-// client.indices.create({
-//     index: 'sarthak'
-// }, function(error, response, status) {
-//     if (error) {
-//         console.log(error);
-//     } else {
-//         console.log("created a new index", response);
-//     }
-// });
+client.indices.create({
+    index: 'sarthak',
+    body: {
+        "mappings": {
+            "employee": {
+                "properties": {
+                    "name": { "type": "string", "index": "not_analyzed" , "fielddata": true },
+                    "salary": { "type": "integer", "index": "not_analyzed" },
+                }
+        }
+    }
+
+}, function(error, response, status) {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log("created a new index", response);
+    }
+});
+
+
 
 
 // => localhost:3000/employees/
