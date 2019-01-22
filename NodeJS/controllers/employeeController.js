@@ -31,8 +31,8 @@ client.indices.create({
         "mappings": {
             "employee": {
                 "properties": {
-                    "name": { "type": "string", "index": "not_analyzed" , "fielddata": true },
-                    "salary": { "type": "integer", "index": "not_analyzed" },
+                    "name": { "type": "string", "fielddata": true },
+                    "salary": { "type": "integer"},
                 }
         }
     }
