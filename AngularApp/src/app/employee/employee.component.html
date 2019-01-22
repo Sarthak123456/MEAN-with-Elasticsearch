@@ -39,12 +39,14 @@
                 </div>
               </div>
             </form>
+
+            <canvas id="barChart"></canvas>
           </div>
           <div class="col s7">
               <form #userForm="ngForm" (keyup)="search($event)">
                   <div class="row">
                       <div class="input-field col s12">
-                        <input type="text" name="searchTerm"  ngModel placeholder="Enter Name">
+                        <input type="text" placeholder="Enter Name">
                         <label>Search :</label>
                       </div>
                     </div>

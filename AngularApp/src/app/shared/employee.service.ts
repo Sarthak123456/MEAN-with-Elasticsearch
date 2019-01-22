@@ -31,7 +31,12 @@ export class EmployeeService {
   }
 
   getSearchResults(term: string) {
-    return this.http.get('http://localhost:3000/employees/'+ term);
+    return this.http.get('http://localhost:3000/employees/' + term);
+  }
+
+  chartData() {
+    return this.http.get('http://localhost:3000/employees/agg');
+
   }
 
 }

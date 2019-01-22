@@ -5,14 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { EmployeeComponent } from './employee/employee.component';
-import { SearchComponent } from './shared/search/search.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeeComponent,
-    SearchComponent
+    EmployeeComponent
   ],
   imports: [
     BrowserModule,
