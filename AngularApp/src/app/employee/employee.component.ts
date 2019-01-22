@@ -21,6 +21,7 @@ export class EmployeeComponent implements OnInit {
   elastic = false;
   salary = [];
   count = [];
+  response: any;
 
   ngOnInit() {
     this.resetForm();
@@ -28,7 +29,8 @@ export class EmployeeComponent implements OnInit {
     this.renderChart();
 
     this.employeeService.chartData().subscribe( res => {
-      const data = res.aggregations.price_ranges.buckets;
+      this.response = res;
+      const data = this.response.aggregations.price_ranges.buckets;
       for (let i = 0 ; i < data.length ; i++) {
           this.salary.push(data[i].key);
           this.count.push(data[i].doc_count);
