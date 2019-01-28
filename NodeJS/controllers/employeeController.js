@@ -12,7 +12,7 @@ var client = new elasticsearch.Client({
    hosts: [ 'http://localhost:9200']
 });
 
-var array=[];
+// var array=[];
 
 // client.indices.delete({
 //     index: '_all'
@@ -31,18 +31,23 @@ client.indices.create({
         "mappings": {
             "employee": {
                 "properties": {
-                    "name": { "type": "string", "fielddata": true },
-                    "salary": { "type": "integer"},
+                    "name": { "type": "text", "fielddata": true },
+                    "position": { "type": "text"},
+                    "office": { "type": "text"},
+                    "salary": { "type": "integer"}
+                    
                 }
         }
     }
 
+}
 }, function(error, response, status) {
     if (error) {
         console.log(error);
     } else {
         console.log("created a new index", response);
     }
+
 });
 
 
